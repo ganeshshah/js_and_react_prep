@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Execute JS Files</title>
+    <script src="index.js" defer></script>
+</head>
+
+<body>
+    <h1>Learning JavaScript.</h1>
+    <a href="https://github.com/ganeshshah/namaste-javascript-notes" target="_blank"> Refer Namaste JS notes here </a>
+
+    <h1>Execute JavaScript Files</h1>
+    <ul id="file-list"></ul>
+
+    <script>
+        async function fetchFiles() {
+            try {
+                const response = await fetch("concepts/index.json"); // Load the JSON file
+                const files = await response.json();
+                const fileList = document.getElementById("file-list");
+
+                files.forEach(file => {
+                    const listItem = document.createElement("li");
+
+                    listItem.innerHTML = `
+                        ${file} 
+                        <button onclick="executeScript('${file}')">Execute</button>
+                        <br><br>
+                    `;
+                    fileList.appendChild(listItem);
+                });
+            } catch (error) {
+                console.error("Error loading files:", error);
+            }
+        }
+
+        function executeScript(fileName) {
+            const script = document.createElement("script");
+            script.src = `concepts/${fileName}`;
+            document.body.appendChild(script);
+        }
+
+        fetchFiles(); // Call function on page load
+    </script>
+</body>
+
+</html>
